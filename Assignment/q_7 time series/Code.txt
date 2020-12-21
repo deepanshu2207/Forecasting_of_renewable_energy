@@ -1,0 +1,38 @@
+from pandas import read_csv
+import pandas as pd
+from matplotlib import pyplot
+from statsmodels.tsa.seasonal import seasonal_decompose
+import numpy as np
+
+series = read_csv('graph.csv',header=None)
+series = pd.DataFrame(series)
+series.plot()
+pyplot.show()
+
+print(series)
+
+#result = seasonal_decompose(series, model='additive',freq=365*24)
+
+result = seasonal_decompose(series, model='multiplicative',freq=365*24)
+
+figure, axes = pyplot.subplots(figsize = (18,10))
+
+# axes.plot(np.arange(0,96360), result.observed, 'b')
+# axes.set_xlabel('Time (Hourly data from 2000-10)')
+# axes.set_ylabel('Wind speed (w/sq.m)')
+# axes.set_title('Actual_Data')
+
+# axes.plot(np.arange(0,96360), result.trend, 'b')
+# axes.set_xlabel('Time')
+# axes.set_ylabel('Trend')
+# axes.set_title('Trend_Component')
+
+# axes.plot(np.arange(0,96360), result.seasonal, 'b')
+# axes.set_xlabel('Time')
+# axes.set_ylabel('Seasonal')
+# axes.set_title('Seasnal_Component')
+
+axes.plot(np.arange(0,96360), result.resid, 'b')
+axes.set_xlabel('Time')
+axes.set_ylabel('Residual')
+axes.set_title('Residual_Component')
